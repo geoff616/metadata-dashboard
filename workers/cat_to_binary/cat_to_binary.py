@@ -33,6 +33,7 @@ def transform2Binary(df):
 
 def aggregate(df):
     # TODO: test that this does what it should
+    df["date"] = pandas.to_datetime(df["date"])
     outputs = pivot_table(df, Values=["hours-spent", "price"], index="date",
                          aggfunc=sum)
     user_count = pivot_table(df, index="date", aggfunc=numpy.count)
