@@ -1,70 +1,70 @@
-import requests
+from datetime import datetime
+from elasticsearch import Elasticsearch
+from iron_mq import IronMQ
+from json import loads
+from pandas import DataFrame
+from time import time
 
-#alternate search function to get all data from an index, increasing size will return all docs but is a more expensive query than scan/scroll
-res = es.search(index="test-index", body={"query": {"match_all": {}}, "size" : 100})
-
-def prettyDate(date):
-    #TODO: confirm how this will work
+def handleEvent(result):
+    temp = result['_source'] 
+    return temp
 
 def handleIdentify(result):
-    #TODO confirm how this data will be structured 
+    temp = result['_source'] 
+    return temp
     
 def handleTrack(result):
-    #TODO confirm how this data will be structured     
-    
+    temp = result['_source']
+    return temp
 
-def scan(s_id, hits, num_shards, res, obj):
-    
-    results = res
-    to_return = obj
-    
-    while results < hits:
-        print results
-    
-        url = 'http://58d3ea40c46e8b15000.qbox.io:80/_search/scroll?search_type=scan&scroll=1m&scroll_id=' + s_id
-        scroll = loads(requests.get(url).text)
+#convert categorical data to binary
+def transform2Binary(df):
+    for i in df.columns:
+        if df[i].dtype not in ("int64", "float64", "datetime64"):
+            for k in df[i].value_counts().index:
+                Example= df[i]==k
+                df[k]=0
+                df[k][Example]=1
+            df.drop(i,inplace=True,axis=1)
+    return df
 
-        
-        if '_scroll_id' and 'hits' in scroll:
-            s_id = scroll['_scroll_id']
+big_dict = {}    
+    
+#connection to es cluster
+es = Elasticsearch(['http://58d3ea40c46e8b15000.qbox.io:80'])
+
+res = es.search(index="test-index", body={"query": {"match_all": {}}, "size" : 100})
+
+for doc in res['hits']['hits']:
+    new_key = doc['_index'] + doc['_type']
+            
+    if doc['_index'] == 'segment':
+
+        if doc['_type'] == 'identify':
+            #new_doc = handleIdentify(doc)
+            a = 1
         else:
-            print 'error with ' + results + ' of ' + hits + ' results'
-            return
-
+            new_doc = handleTrack(doc)
     
-        #loop over results and index into to_return      
-        for result in scroll['hits']['hits']:    
-            #use new_key 
-            new_key = result['_index'] + result['_type']
-            
-            if result['_index'] == 'segment':
-            
-                if result['_type'] == 'identify':
-                    handleIdentify(result)
-                else:
-                    handleTrack(result)
-            
-            results += 1
+    else:
+        new_doc = handleEvent(doc)
+    
+    if new_key in big_dict:
+        big_dict[new_key].append(new_doc)
+    else:
+        big_dict[new_key] = [new_doc]
+
         
-        #call scan again
-        scan(s_id, hits, num_shards, results, to_return)
-            
-url = 'http://58d3ea40c46e8b15000.qbox.io:80/_search?search_type=scan&scroll=10m&query'
+to_index = {}        
+#for each type, create a df to manipulate
+for data in big_dict.keys():
+    events = big_dict[data]
 
-#TODO: determine if a post body will help 
-r = loads(requests.post(url).text)
-if '_scroll_id' and 'hits' and '_shards' in r:
-    s_id = r['_scroll_id']
-    hits = r['hits']['total']
-    num_shards = r['_shards']['total']
-else:
-    print 'scroll fail'
-
-#magic numbers 0 passed to start results at zero, and empty object to be filled as return value
-all_the_data = scan(s_id, hits, num_shards, 0, {})   
-
-for df_type in all_the_data.keys():
-    print df_type
-    #list_of_events = all_the_data[df_type]
+    #TODO: confirm this function is doing what is expected
+    df = transform2Binary(DataFrame(events))
+    to_index['data'] = df.to_json()
     
+for data in to_index.keys():
+    ti = str(time()).split('.')[0]
+    es.index(index="cat-index", doc_type=data, id=ti, body=to_index[data])
 
