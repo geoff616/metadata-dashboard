@@ -1,11 +1,11 @@
 import logging
 import analytics
-from faker import Factory
+import faker
 import random
 import time
 import uuid
 
-fake = Factory.create()
+fake = faker.Faker()
 
 age_multipliers = [0.0, 0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
 
