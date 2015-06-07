@@ -19,14 +19,13 @@ def parse_days(data_csv):
     for line in global_reader:
         # Discard the header lines, this is terrible code
         if line[0] not in "Datescalarmeanstd":
-            days[datetime.datetime.strptime(line[0], '%m/%d/%Y').date()] = \
-            
             # ["events", "max_temp", "passes", "ticket_price", "cloud_cover"]
+            days[datetime.datetime.strptime(line[0], '%m/%d/%Y').date()] = \
             Day(line[8], 
                 int(line[9]), 
                 int(line[28].replace(",",""))/compression_factor,
                 float(line[31]),
-                int(line(7)))
+                int(line[7]))
     return days
 
 def simulate(days, all_users):

@@ -2,6 +2,7 @@ import logging
 import analytics
 from faker import Factory
 import random
+import time
 import uuid
 
 fake = Factory.create()
@@ -53,11 +54,12 @@ class User():
            enthusiasm = enthusiasm/4.0
         elif day.max_temp >= 32:
             enthusiasm = enthusiasm/2.0
+        time.sleep(.02)
         analytics.track(self.id, "used-pass", {"date": str(the_date),
                                                "hours-spent": 8.0*enthusiasm,
                                                 "price": day.ticket_price, 
                                                 "enthusiasm": enthusiasm,
-                                                "weather": day.events.split['-'],
+                                                "weather": day.events.split('-'),
                                                 "cloud_cover": day.cloud_cover})
         return True
     
