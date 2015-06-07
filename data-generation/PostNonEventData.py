@@ -9,8 +9,10 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from iron_mq import IronMQ
 import pandas
+import string
+import json
 
-datadir='...github\\metadata-dashboard\\data-generation\\'
+datadir='C:\\Users\\agitzes\\Documents\\github\\metadata-dashboard\\data-generation\\'
 
 
 #connection to es cluster
@@ -29,10 +31,10 @@ eventqueue = ironmq.queue("event-stream")
 
 
 
-Trends=pandas.read_csv(datadir+"GlobalmetadataTrends.csv", index="Date")
-interventions=pandas.read_csv(datadir+"interventions.csv", index="Date")
-weather=pandas.read_csv(datadir+"Globalmetadataweather.csv", index= "Date")
-CompPrice=pandas.read_csv(datadir+"Globalmetadataweather.csv", index = "Date")
+Trends=pandas.read_csv(datadir+"GlobalmetadataTrends.csv",index_col=0)
+interventions=pandas.read_csv(datadir+"intervention.csv",index_col=0)
+weather=pandas.read_csv(datadir+"Globalmetadataweather.csv",index_col=0)
+CompPrice=pandas.read_csv(datadir+"Globalmetadataweather.csv",index_col=0)
 
 
 
@@ -83,7 +85,7 @@ for i in range(0,len(weather)):
 for i in range(0,len(Trends)):
     Properties={}
     for k in Trends.columns:
-        Properties[k] = trends[k].iloc[i]
+        Properties[k] = Trends[k].iloc[i]
     Measure = {
     "Index" : "Metadata",
     "Date" : string.split(str(Trends.index[i])," ")[0],
