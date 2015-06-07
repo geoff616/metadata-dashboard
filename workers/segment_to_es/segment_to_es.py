@@ -49,7 +49,7 @@ for i in range(segment_queue.info()['size']):
         doc['userId'] = body['userId']
         
         
-        res = es.index(index='segment', doc_type=doc_type, id=queue_id, body=doc)
+        res = es.index(index='new-segment', doc_type=doc_type, id=queue_id, body=doc)
         if res['created'] == True:
             print 'success'
             segment_queue.delete(queue_id)

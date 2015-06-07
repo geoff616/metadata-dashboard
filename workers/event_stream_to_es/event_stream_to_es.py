@@ -39,7 +39,8 @@ for i in range(event_queue.info()['size']):
             doc['timestamp'] = datetime.strptime(body['Date'], '%Y-%m-%d')
 
         #change index to body['index'] when testing is over
-        res = es.index(index=body['Index'], doc_type=body['Type'], id=queue_id, body=doc)
+        ind = 'new-' + body['Index']
+        res = es.index(index=ind, doc_type=body['Type'], id=queue_id, body=doc)
         if res['created'] == True:
             print 'success'
             event_queue.delete(queue_id)
