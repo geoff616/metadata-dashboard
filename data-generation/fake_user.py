@@ -10,6 +10,9 @@ age_multipliers = [0.0, 0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
 
 analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
 
+logging.basicConfig()
+analytics.debug = True
+
 class User():
     def __init__(self):
         """Generate this user's properties and sign it up to Segment."""
