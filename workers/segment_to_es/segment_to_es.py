@@ -35,6 +35,11 @@ for i in range(segment_queue.info()['size']):
         if 'event' in body:
             doc_type = body['event']
             doc['properties'] = body['properties']
+            #TODO: confirm if date is upper/lower case
+            if 'date' in body['properties']:
+                doc['timestamp'] = datetime.strptime(body['properties']['date'], '%Y-%m-%d')
+            else:
+                doc['timestamp'] = datetime.strptime(body['properties']['Date'], '%Y-%m-%d')
         #otherwise it is identify TODO: clean this up to handle different types 
         else:
             doc_type =  'identify'
@@ -42,7 +47,7 @@ for i in range(segment_queue.info()['size']):
 
         
         doc['userId'] = body['userId']
-        doc['timestamp'] = datetime.strptime(body['properties']['Date'], '%Y-%m-%d')
+        
         
         res = es.index(index='segment', doc_type=doc_type, id=queue_id, body=doc)
         if res['created'] == True:
