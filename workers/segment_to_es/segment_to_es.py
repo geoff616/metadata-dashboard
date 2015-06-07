@@ -39,17 +39,18 @@ for i in range(segment_queue.info()['size']):
         else:
             doc_type =  'identify'
             doc['traits'] = body['traits']
-            
+
         
         doc['userId'] = body['userId']
-        doc['timestamp'] = datetime.strptime(body['Date'], '%Y-%m-%d')
+        doc['timestamp'] = datetime.strptime(body['properties']['Date'], '%Y-%m-%d')
         
-        res = es.index(index=segment, doc_type=doc_type, id=queue_id, body=doc)
+        res = es.index(index='segment', doc_type=doc_type, id=queue_id, body=doc)
         if res['created'] == True:
             print 'success'
             segment_queue.delete(queue_id)
     except:
         #ugh errors
+        print 'error'
         print data
 
 
