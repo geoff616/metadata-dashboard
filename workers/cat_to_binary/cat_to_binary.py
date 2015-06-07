@@ -1,5 +1,8 @@
 import requests
 
+#alternate search function to get all data from an index, increasing size will return all docs but is a more expensive query than scan/scroll
+res = es.search(index="test-index", body={"query": {"match_all": {}}, "size" : 100})
+
 def prettyDate(date):
     #TODO: confirm how this will work
 
