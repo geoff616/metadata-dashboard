@@ -2,40 +2,31 @@
 
 ##Executive Summary
 
-We want to able to demonstrate to conduct ETL processes across:
-  Extract: Segment.io
-  Transform: Ironworker
-  Load: ElasticSearh
-To continuously generate insights for a ski resort manager.
-
-In the older workflow, this manager would have to manually ETL in batch, and run that through his data modelling in batch.  With this new workflow, we hope to be able to run ETL, data modelling (and recommendations!) continuously.
+Most business decisions are not split test and it is difficult to determine the impact of an intervention. Our dashboard provides an analyst the ability to add context to their time series data and help infer the impact of a given intervention.
 
 Source (of inspiration):
 http://blog.iron.io/2014/10/how-to-build-etl-pipeline-for.html
 
 ##Data Generation:
 
-There are three Input datasets coming from Segment:
-Unaggregated Event Data - this consititues 
-High Dimension Metadata
-Intervention Data
-These are all found in the data-generation folder
+There are three Input datasets coming through our data pipelines:
+
+- Business event data coming from segment, including CRM and Web Analytics data
+- High dimensional metadata that includes information about the state of the world
+- Intervention data that includes business events of interest
+
+The simulations that generate the data and load it into the pipelines can be found in the data-generation folder
 
 ##ETL processes
 
-The scripts used to ETL  are found in the workers folder.  The python scripts here takes the data generated and ETL them into Elastic Search, through using workers from Iron.io.  To learn more about Iron and workers, see http://dev.iron.io/worker/beta/getting_started/ for more details
+Once the data has entered the pipeline, it is queued iron.io until a worker is ready to process the event.The python scripts in the worker folder index the data into Elastic Search, where it is available for analysis. 
 
 ## Insight generation
 
-We feed the loaded data into insight generation engine which provides metrics such as Revenue Lift ($)
-
-UPDATE: We would have ideally wanted to separate i) ETL and ii) Insights Generation as separate steps into and out of Elastic Search, i.e. Load into Elastic Search, pull data from Elastic Search and feed into Insights Generation, and Load results back into Elastic Search.  However, due to insufficient time, we merged the two steps into one.
+The three types of data are fed into insight generation engine, which attempts to infer the causal impact of each intervention. The model being used ... TBD and the output of this model helps an analyst understand which interventions were most successful.
 
 ## Presentation and Visualization
 
-We used Kibana for visualization (and seredipidous insight generation :) ) which nicely talks to Elastic Search.
+We used Kibana for visualization and data exploration of the data in Elasticsearch, which allows an analyst to plot trends and generate additional aggregations to understand what contributed to the relative success of interventions.
 
-Geoff, Adam, Matt and Athens
-
-
-
+Built by: Geoff, Adam, Matt and Athens

@@ -1,4 +1,4 @@
-import logging
+#import logging
 import analytics
 import faker
 import random
@@ -11,8 +11,8 @@ age_multipliers = [0.0, 0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
 
 analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
 
-logging.basicConfig()
-analytics.debug = True
+#logging.basicConfig()
+#analytics.debug = False
 
 user_lookup = {}
 
