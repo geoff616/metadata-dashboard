@@ -1,3 +1,8 @@
+"""
+Business event data coming from segment, including CRM and Web Analytics data
+This is then loaded to ElasticSearch
+"""
+
 from datetime import datetime
 from elasticsearch import Elasticsearch
 from iron_mq import IronMQ
