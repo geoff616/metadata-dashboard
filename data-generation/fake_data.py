@@ -1,4 +1,3 @@
-import analytics
 import csv
 import datetime
 from collections import namedtuple
@@ -61,11 +60,9 @@ def simulate(days, all_users):
                 users.append(next_client)
                 l += 1
             for user in users:
-                user.stay_a_day(the_date, current_day)
-                          
+                user.stay_a_day(the_date, current_day)                        
         
 if __name__ == "__main__":
-    analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
     operating_days = parse_days("Number_of_Passes_sold_and_Total_Revenue.csv")
     # The number 10000 is MAGIC, and bad things will happen if we fiddle with
     # it with our current dataset size

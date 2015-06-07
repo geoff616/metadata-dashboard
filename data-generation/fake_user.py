@@ -1,3 +1,4 @@
+import logging
 import analytics
 from faker import Factory
 import random
@@ -6,6 +7,14 @@ import uuid
 fake = Factory.create()
 
 age_multipliers = [0.0, 0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
+
+analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
+
+#def on_error(error, items):
+#    print("An error occurred:", error)
+
+#analytics.debug = True
+#analytics.on_error = on_error
 
 class User():
     def __init__(self):
@@ -23,9 +32,7 @@ class User():
         self.satisfaction = random.random()
         
         self.reservation_length = self.perferred_stay
-        analytics.identify(self.id, {
-            'name': self.name,
-            'address': self.address})    
+        analytics.identify(self.id, {'name': self.name}) 
         
     def stay_a_day(self,the_date, day):
         """Generate a Segment call's worth of data and perform internal upkeep
@@ -47,9 +54,9 @@ class User():
            enthusiasm = enthusiasm/4.0
         elif day.max_temp >= 32:
             enthusiasm = enthusiasm/2.0
-        analytics.track(self.id, "used-pass", {"Date": str(the_date),
-                                               "Hours Spent": 8.0*enthusiasm,
-                                                 "Price": day.ticket_price})
+        analytics.track(self.id, "used-pass", {"date": str(the_date)})
+                                               "hours-spent": 8.0*enthusiasm,
+                                                "price": day.ticket_price})
         return True
     
     def leaving(self):
@@ -60,7 +67,7 @@ class User():
         """Perform internal upkeep when the user leaves earlier than planned -
         decreased satisfaction makes them less likely to attend in the future.
         """
-        self.satisfaction *= 0.7
+        self.satisfaction *= 0.7 # This is arbitrary subject to tweaking
         
     def book_stay(self):
         """Set the number of days until leaving equal to the number of days this
