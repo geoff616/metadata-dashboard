@@ -32,9 +32,12 @@ def transform2Binary(df):
     return df
 
 def aggregate(df):
-    #TODO: write aggregation function
-    return pivot_table(df, Values=["hours-spent", "price"], index="date",
-                       aggfunc=sum)
+    # TODO: test that this does what it should
+    outputs = pivot_table(df, Values=["hours-spent", "price"], index="date",
+                         aggfunc=sum)
+    user_count = pivot_table(df, index="date", aggfunc=numpy.count)
+    return outputs.join(user_count)
+    
 big_dict = {}    
     
 #connection to es cluster
@@ -79,7 +82,7 @@ for data in big_dict.keys():
     else:
         #intervention data
         #TODO: do something exciting here
-    to_index['data'] = df.to_json()
+        to_index['data'] = df.to_json()
     
 for data in to_index.keys():
     ti = str(time()).split('.')[0]
