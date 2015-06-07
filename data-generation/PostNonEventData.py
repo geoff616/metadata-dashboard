@@ -12,7 +12,7 @@ import pandas
 import string
 import json
 
-datadir='C:\\Users\\agitzes\\Documents\\github\\metadata-dashboard\\data-generation\\'
+datadir='~/metadata-dashboard/data-generation/'
 
 
 #connection to es cluster
@@ -43,7 +43,7 @@ for i in range (0,len(interventions)):
 
 
     Promotions = {
-    "Index" : "Intervention",
+    "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
     "Type" : "Promotion",
     "Properties": {"Value" : interventions.Promotion.iloc[i]}
@@ -51,7 +51,7 @@ for i in range (0,len(interventions)):
     }
     
     Campaigns = {
-    "Index" : "Intervention",
+    "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
     "Type" : "Campaign",
     "Properties": {"Value" : interventions.Campaign.iloc[i]}
@@ -59,7 +59,7 @@ for i in range (0,len(interventions)):
     }
     
     Catastrophe = {
-    "Index" : "Intervention",
+    "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
     "Type" : "Campaign",
     "Properties": {"Value" : interventions.Catastrophe.iloc[i]}
@@ -75,7 +75,7 @@ for i in range(0,len(weather)):
     for k in weather.columns:
         Properties[k] = weather[k].iloc[i]
     Measure = {
-    "Index" : "Metadata",
+    "Index" : "metadata",
     "Date" : string.split(str(weather.index[i])," ")[0],
     "Type" : "Weather",
     "Properties": Properties}
@@ -87,7 +87,7 @@ for i in range(0,len(Trends)):
     for k in Trends.columns:
         Properties[k] = Trends[k].iloc[i]
     Measure = {
-    "Index" : "Metadata",
+    "Index" : "metadata",
     "Date" : string.split(str(Trends.index[i])," ")[0],
     "Type" : "Trends",
     "Properties": Properties}
@@ -96,7 +96,7 @@ for i in range(0,len(Trends)):
     
 for i in range (0, len (CompPrice)):
     Measure = {
-    "Index" : "Metadata",
+    "Index" : "metadata",
     "Date" : string.split(str(CompPrice.index[i])," ")[0],
     "Type" : "Competitive Pricing",
     "Properties": {"Value":CompPrice.iloc[i]}}
