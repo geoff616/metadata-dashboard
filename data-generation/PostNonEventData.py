@@ -98,7 +98,7 @@ for i in range (0, len (CompPrice)):
     Measure = {
     "Index" : "metadata",
     "Date" : string.split(str(CompPrice.index[i])," ")[0],
-    "Type" : "comp_price",
+    "Type" : "comp-price",
     "Properties": {"Value":CompPrice.iloc[i]}}
 
     eventqueue.post(json.dumps(Measure,default=str))
