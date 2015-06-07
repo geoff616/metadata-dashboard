@@ -13,6 +13,8 @@ analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
 logging.basicConfig()
 analytics.debug = True
 
+user_lookup = {}
+
 class User():
     def __init__(self):
         """Generate this user's properties and sign it up to Segment."""
@@ -53,7 +55,10 @@ class User():
             enthusiasm = enthusiasm/2.0
         analytics.track(self.id, "used-pass", {"date": str(the_date),
                                                "hours-spent": 8.0*enthusiasm,
-                                                "price": day.ticket_price})
+                                                "price": day.ticket_price, 
+                                                "enthusiasm": enthusiasm,
+                                                "weather": day.events.split['-'],
+                                                "cloud_cover": day.cloud_cover})
         return True
     
     def leaving(self):

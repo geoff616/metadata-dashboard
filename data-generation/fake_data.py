@@ -6,7 +6,7 @@ import random
 import fake_user
 import user_pool
 
-Day = namedtuple("Day", ["events", "max_temp", "passes", "ticket_price"])
+Day = namedtuple("Day", ["events", "max_temp", "passes", "ticket_price", "cloud_cover"])
 # Divide the number of passes by this value (simulate is O(d*n**2) in the 
 # number of days and size of the user pool, so this is handy
 compression_factor = 100
@@ -20,10 +20,13 @@ def parse_days(data_csv):
         # Discard the header lines, this is terrible code
         if line[0] not in "Datescalarmeanstd":
             days[datetime.datetime.strptime(line[0], '%m/%d/%Y').date()] = \
+            
+            # ["events", "max_temp", "passes", "ticket_price", "cloud_cover"]
             Day(line[8], 
                 int(line[9]), 
                 int(line[28].replace(",",""))/compression_factor,
-                float(line[31]))
+                float(line[31]),
+                int(line(7)))
     return days
 
 def simulate(days, all_users):
