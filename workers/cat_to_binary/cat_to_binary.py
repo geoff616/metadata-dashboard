@@ -1,3 +1,6 @@
+## This function performs the transformation of all three datasets not just the transformation to binary as
+## the name of this script suggests
+
 from datetime import datetime
 from elasticsearch import Elasticsearch
 from iron_mq import IronMQ
