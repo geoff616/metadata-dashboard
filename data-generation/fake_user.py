@@ -10,12 +10,6 @@ age_multipliers = [0.0, 0.0, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0]
 
 analytics.write_key = "73lfhw3EjbBPKUKF6YrNjUQwSDNgMGAs"
 
-#def on_error(error, items):
-#    print("An error occurred:", error)
-
-#analytics.debug = True
-#analytics.on_error = on_error
-
 class User():
     def __init__(self):
         """Generate this user's properties and sign it up to Segment."""
@@ -54,7 +48,7 @@ class User():
            enthusiasm = enthusiasm/4.0
         elif day.max_temp >= 32:
             enthusiasm = enthusiasm/2.0
-        analytics.track(self.id, "used-pass", {"date": str(the_date)})
+        analytics.track(self.id, "used-pass", {"date": str(the_date),
                                                "hours-spent": 8.0*enthusiasm,
                                                 "price": day.ticket_price})
         return True

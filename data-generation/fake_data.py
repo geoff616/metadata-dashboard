@@ -9,7 +9,7 @@ import user_pool
 Day = namedtuple("Day", ["events", "max_temp", "passes", "ticket_price"])
 # Divide the number of passes by this value (simulate is O(d*n**2) in the 
 # number of days and size of the user pool, so this is handy
-compression_factor = 10
+compression_factor = 100
 
 def parse_days(data_csv):
     """Read in all the data that we need from a .csv file with a fixed column 
@@ -64,8 +64,8 @@ def simulate(days, all_users):
         
 if __name__ == "__main__":
     operating_days = parse_days("Number_of_Passes_sold_and_Total_Revenue.csv")
-    # The number 10000 is MAGIC, and bad things will happen if we fiddle with
-    # it with our current dataset size
+    # The number 10000 is MAGIC, and bad things will happen if we change it
+    # too much with our current dataset size
     u = [fake_user.User() for i in range(10000/compression_factor)]
     potential_users = user_pool.UserPool(u)
 
