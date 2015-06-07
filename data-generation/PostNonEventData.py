@@ -45,7 +45,7 @@ for i in range (0,len(interventions)):
     Promotions = {
     "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
-    "Type" : "Promotion",
+    "Type" : "promotion",
     "Properties": {"Value" : interventions.Promotion.iloc[i]}
 
     }
@@ -53,7 +53,7 @@ for i in range (0,len(interventions)):
     Campaigns = {
     "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
-    "Type" : "Campaign",
+    "Type" : "campaign",
     "Properties": {"Value" : interventions.Campaign.iloc[i]}
     
     }
@@ -61,7 +61,7 @@ for i in range (0,len(interventions)):
     Catastrophe = {
     "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
-    "Type" : "Campaign",
+    "Type" : "campaign",
     "Properties": {"Value" : interventions.Catastrophe.iloc[i]}
     }
     
@@ -77,7 +77,7 @@ for i in range(0,len(weather)):
     Measure = {
     "Index" : "metadata",
     "Date" : string.split(str(weather.index[i])," ")[0],
-    "Type" : "Weather",
+    "Type" : "weather",
     "Properties": Properties}
     
     eventqueue.post(json.dumps(Measure, default=str))
@@ -89,7 +89,7 @@ for i in range(0,len(Trends)):
     Measure = {
     "Index" : "metadata",
     "Date" : string.split(str(Trends.index[i])," ")[0],
-    "Type" : "Trends",
+    "Type" : "trends",
     "Properties": Properties}
     
     eventqueue.post(json.dumps(Measure, default=str))
@@ -98,7 +98,7 @@ for i in range (0, len (CompPrice)):
     Measure = {
     "Index" : "metadata",
     "Date" : string.split(str(CompPrice.index[i])," ")[0],
-    "Type" : "Competitive Pricing",
+    "Type" : "comp_price",
     "Properties": {"Value":CompPrice.iloc[i]}}
 
     eventqueue.post(json.dumps(Measure,default=str))
