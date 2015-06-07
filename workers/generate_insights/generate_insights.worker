@@ -1,0 +1,7 @@
+# set the runtime language. Python workers use "python"
+runtime "python"
+pip "elasticsearch"
+pip "iron_mq"
+pip "pandas"
+# exec is the file that will be executed:
+exec "cat_to_binary.py"
