@@ -33,9 +33,8 @@ def transform2Binary(df):
 
 def aggregate(df):
     #TODO: write aggregation function
-    #df.pivot_table('')          
-        
-
+    return pivot_table(df, Values=["hours-spent", "price"], index="date",
+                       aggfunc=sum)
 big_dict = {}    
     
 #connection to es cluster
