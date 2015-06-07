@@ -61,7 +61,7 @@ for i in range (0,len(interventions)):
     Catastrophe = {
     "Index" : "intervention",
     "Date" : string.split(str(interventions.index[i])," ")[0],
-    "Type" : "campaign",
+    "Type" : "catastrophe",
     "Properties": {"Value" : interventions.Catastrophe.iloc[i]}
     }
     
